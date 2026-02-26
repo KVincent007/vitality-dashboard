@@ -1,10 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Activity, Apple, Zap, Shield, Heart, 
   Droplet, Dna, ArrowRight, ActivitySquare, 
   Syringe, Activity as VitalIcon, UserCheck, 
   AlertCircle, CheckCircle2 
 } from 'lucide-react';
+
+function useForceReflow() {
+  const [, setTick] = useState(0);
+
+  useEffect(() => {
+    const bump = () => setTick((t) => t + 1);
+
+    // Force a few re-renders after load
+    const t1 = setTimeout(bump, 50);
+    const t2 = setTimeout(bump, 250);
+    const t3 = setTimeout(bump, 800);
+
+    // Also re-render on resize
+    window.addEventListener("resize", bump);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      window.removeEventListener("resize", bump);
+    };
+  }, []);
+}
 
 // --- MOCK DATA: 80-Year-Old Patient Profile ---
 const patientProfile = {
@@ -222,7 +245,7 @@ const DashboardView = () => (
     </div>
 
     {/* Domains Grid */}
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       {patientProfile.domains.map(domain => (
         <div key={domain.id} className="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex flex-col h-full">
           <div className="flex items-center justify-between mb-3">
@@ -335,6 +358,7 @@ const ComparisonView = () => (
 );
 
 export default function App() {
+  useForceReflow();
   const [activeTab, setActiveTab] = useState('dashboard');
 
   return (
