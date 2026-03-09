@@ -352,7 +352,7 @@ export default function App() {
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
               
               {/* Score Header */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                 <div className="md:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col justify-center">
                   <h2 className="text-xl font-bold text-slate-900 mb-2">{currentProfile.title}</h2>
                   <p className="text-slate-500 text-sm mb-4">{currentProfile.description}</p>
